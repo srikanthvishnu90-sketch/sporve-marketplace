@@ -103,13 +103,13 @@
      landing (sporve-landing/tokens.css) so the two web surfaces share one
      scale. Every text element on this page maps to one of these. */
   --text-xs:10.5px;                    /* eyebrows, stat labels, nav, chips   */
-  --text-sm:12px;                      /* meta lines, captions, buttons       */
-  --text-base:14.5px;                  /* body paragraphs                     */
-  --text-md:15.5px;                    /* lead paragraph only (hero support)  */
-  --text-lg:clamp(17px,1.3vw,19px);    /* card titles, coach name             */
+  --text-sm:10px;                      /* meta lines, captions, buttons       */
+  --text-base:12.5px;                  /* body paragraphs                     */
+  --text-md:13.5px;                    /* lead paragraph only (hero support)  */
+  --text-lg:clamp(13px,1.3vw,15px);    /* card titles, coach name             */
   --text-xl:clamp(21px,1.9vw,27px);    /* stat numerals, sub-headers          */
-  --text-2xl:clamp(24px,2.2vw,32px);   /* section headers (h2)                */
-  --text-hero:clamp(32px,3.6vw,54px);  /* h1 only                             */
+  --text-2xl:clamp(20px,2.2vw,28px);   /* section headers (h2)                */
+  --text-hero:clamp(28px,3.6vw,50px);  /* h1 only                             */
   /* The ONE class of exception: a `font-size` that sizes a GLYPH rather than
      text -- an avatar initial, an emoji, a chevron, a sport badge's icon.
      Those are icon dimensions expressed in font-size units, and a fluid clamp
@@ -178,17 +178,17 @@
      numerals stay JetBrains Mono. Revises D7 from Syne. */
     --roboto-cond:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
   --text-hero-lp:clamp(31px,4.5vw,57px);
-  --display:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --display:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
   /* MAIN HEADERS = Instrument Serif (owner 2026-08-21: "main header a mix of
      Times New Roman + athletic feeling"). The embedded editorial serif carries
      the Times/professional half; Archivo (secondary headers) + the sporty logo
      carry the athletic half. Body/nav/UI pair with INTER, per the same directive. */
-  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --serif:"Roboto Condensed","Arial Narrow",system-ui,serif;
   /* §3.5 nav face + tabs → Instrument Serif (owner 2026-08-22, mobile Uber/Airbnb
      pass: "top tabs portion as well as the hovering portion should all be in serif").
      REVERSES the earlier Inter-nav rule — the top tabs and the hover mega-menu now
      carry the editorial serif voice. Body/small text stays Inter (--sans). */
-  --nav-face:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --nav-face:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,
          "Helvetica Neue",Arial,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
@@ -449,8 +449,8 @@ img{max-width:100%;display:block}
   /* Product-toggle register (coachinfo/trust/pricing). Archivo LARGE HEADERS +
      PLUS JAKARTA body/tabs (owner 2026-08-21: Nike/Whoop display, professional
      body). Kept in sync with the :root display face above. */
-  --display:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --display:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
+  --serif:"Roboto Condensed","Arial Narrow",system-ui,serif;
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   font-family:var(--sans);
 }

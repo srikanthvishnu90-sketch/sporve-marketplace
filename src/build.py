@@ -82,6 +82,7 @@ FAMILY_BY_PREFIX = {
     "archivo": "Archivo",               # display / large text
     "jetbrainsmono": "JetBrains Mono",  # NUMERALS only (prices/ratings/counts)
     "inter": "Inter",                   # body / small text
+    "robotocondensed": "Roboto Condensed",  # display headers (matches the agent)
     "sentinel": "Sentinel",
 }
 # Google serves ONE variable woff2 per family — every weight URL in a css2
@@ -90,6 +91,7 @@ FAMILY_BY_PREFIX = {
 # 60KB. A file named <Prefix>-Variable.woff2 therefore emits a single @font-face
 # carrying the whole weight range instead of one face per weight.
 VARIABLE_RANGE = {"Syne": "600 800", "Plus Jakarta Sans": "400 700",
+                  "Roboto Condensed": "500 800",
                   # The serious register. One family doing display AND body, so
                   # it needs the full working range rather than a display band:
                   # 400 body, 700 UI labels, 800 headlines.

@@ -176,6 +176,8 @@
      editorial geometry. Already embedded (build.py maps archivo→"Archivo" 400-800),
      so zero CSP/page-weight cost. Body stays Plus Jakarta / Inter (professional);
      numerals stay JetBrains Mono. Revises D7 from Syne. */
+    --roboto-cond:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
+  --text-hero-lp:clamp(31px,4.5vw,57px);
   --display:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
   /* MAIN HEADERS = Instrument Serif (owner 2026-08-21: "main header a mix of
      Times New Roman + athletic feeling"). The embedded editorial serif carries
@@ -5204,6 +5206,33 @@ body.reg-coach .rail button{font-size:var(--t-small)}
   .pg-capability-grid,.pg-message-defs .pg-definition-list,.pg-roster-grid .pg-r4-copy{grid-template-columns:1fr}
   .pg-capability-grid article{min-height:0}
 }
+
+/* ── AGENT-STYLE HERO (ported from sporv.vercel.app, owner 2026-09-01: the
+   marketplace hero copies the agent — stadium, Roboto Condensed AI headline,
+   sport ticker, same sizing) ──────────────────────────────────────────────*/
+.herofull{padding:0;border-bottom:0;background:#0B0D0F}
+.herofull .hero-panel{position:relative;min-height:100svh;display:flex;
+  align-items:center;justify-content:center;overflow:hidden;border-radius:0;margin:0;width:100%}
+.herofull-in{position:relative;z-index:1;width:100%;text-align:center;padding:0 20px}
+#app .hero-ai{font-family:var(--roboto-cond);font-weight:800;text-transform:uppercase;
+  font-size:var(--text-hero-lp);line-height:1;letter-spacing:-.01em;
+  color:var(--on-dark);max-width:none;margin:0}
+#app .hero-ai span{color:var(--slate)}
+.hero-mq{overflow:hidden;margin:22px auto 0;max-width:560px;
+  border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 80%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 80%,transparent 100%)}
+.hero-mq-track{display:flex;width:max-content;animation:heroMq 42s linear infinite}
+@keyframes heroMq{to{transform:translateX(-50%)}}
+.hero-mq:hover .hero-mq-track{animation-play-state:paused}
+.hero-mq span{font-family:var(--roboto-cond);font-weight:700;font-size:12px;letter-spacing:.28em;
+  padding:12px 26px;white-space:nowrap;text-transform:uppercase;text-shadow:0 0 11px currentColor;
+  display:inline-flex;align-items:center}
+.hero-mq span i{display:inline-block;width:3px;height:3px;border-radius:50%;
+  background:rgba(252,249,248,.30);margin-left:26px;flex:none;text-shadow:none}
+.herofull-in .searchpill,.herofull-in .search-pill{margin:22px auto 0}
+@media(max-width:768px){.hero-mq{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.hero-mq-track{animation:none}}
 </style>
 
 <div id="app"></div>
@@ -7672,17 +7701,13 @@ function landingHTML(){
   const f=landingFacts();
   const heroSports=["Soccer","Basketball","Tennis","Baseball","Swimming"];
   return `
-  <section class="band hero heroL">
-    <div class="shell hero-in">
-      <p class="eyebrow">Youth sports · Chicago</p>
-      <h1 class="display">Coaching. Booked.</h1>
-      <p class="lede">Every sport, one app — and no one takes a booking here
-        until they have cleared a background check.</p>
-      ${searchPillHTML()}
-      <div class="chiprow">
-        ${heroSports.map(s=>`<button class="hchip" data-sportjump="${esc(s)}">
-          <i style="background:${sportColor(s)}"></i>${esc(s)}</button>`).join("")}
-        <button class="hchip alt" data-nav="explore">All sports →</button>
+  <section class="hero herofull">
+    <div class="hero-panel">
+      ${heroMediaHTML()}
+      <div class="hero-in herofull-in">
+        <h1 class="hero-ai">Sporv, the AI <span>for youth sports.</span></h1>
+        ${heroSportCycleHTML()}
+        ${searchPillHTML()}
       </div>
     </div>
   </section>
@@ -8036,6 +8061,13 @@ function searchPillHTML(){
       </svg>
     </button>
   </form>`;
+}
+function heroSportCycleHTML(){
+  const S=[['Soccer','#2EA136'],['Baseball','#2384FB'],['Swimming','#009AA0'],
+           ['Tennis','#878500'],['Volleyball','#D54F8A'],['Golf','#00A15E'],
+           ['Hockey','#0092CA'],['Track','#9A68E0'],['Lacrosse','#009F77'],['MMA','#7172FA']];
+  const lane=S.map(([n,c])=>`<span style="color:${c}">${esc(n.toUpperCase())}<i aria-hidden="true"></i></span>`).join("");
+  return `<div class="hero-mq" aria-label="Sports on Sporv"><div class="hero-mq-track">${lane}${lane}</div></div>`;
 }
 function heroMediaHTML(){
   if(!HERO_IMGS.length) return "";

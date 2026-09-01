@@ -1,0 +1,64 @@
+# Runs the repo's own smoke test on every pull request, so CodeRabbit's review
+# and a green build check sit side by side on the same PR.
+#
+# History worth keeping: this workflow used to run `bash src/smoke.sh` with no
+# browser available. smoke.sh detected the missing harness and exited 0, so the
+# check went green after 3 of its 25 assertions — it never opened a page, never
+# rendered a route, and never measured contrast. Several PRs merged under that
+# tick. The playwright steps below are what make the other 22 real.
+name: pr-checks
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Pinned rather than floating: a browser engine that changes under us
+      # would turn rendering assertions into flakes, and a flaky gate gets
+      # ignored, which is how the gate became decorative in the first place.
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-1.62.1
+
+      - name: Install production dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Install Playwright harness
+        run: npm install --no-save --package-lock=false --ignore-scripts --no-audit --no-fund playwright@1.62.1
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: python3 src/build.py
+
+      # Contract tests are deterministic (no live network — the AI test mocks
+      # the quota RPC, data-contract uses a mock Supabase URL). They existed in
+      # the repo but nothing ran them; wired in here so the AI-endpoint auth /
+      # quota / injection-resistance contract (and the repo + data contracts)
+      # actually gate a PR instead of rotting.
+      - name: Contract tests (ai · repo · data)
+        run: |
+          node scripts/ai-contract-test.mjs
+          node scripts/repo-contract-test.mjs
+          node scripts/data-contract-test.mjs
+
+      - name: Smoke (all checks, browser included)
+        run: ./src/smoke.sh

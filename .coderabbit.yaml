@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit configuration for the-sporve-web
+# Docs: https://docs.coderabbit.ai/guides/configure-coderabbit
+#
+# This repo is one hand-authored source (src/sporve-web.host.html + src/mod-*.js)
+# compiled by python3 src/build.py into a roughly 2MB index.html. Reviewing the
+# generated file or the inlined binaries would bury every real comment in noise,
+# so those are excluded and review is pointed at the sources a human actually edits.
+
+language: en-US
+early_access: false
+
+reviews:
+  # "assertive" surfaces more than the default; this is a solo-owned codebase
+  # where a second set of eyes is the whole point.
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: false
+
+  path_filters:
+    # Review every hand-authored source and repository control surface.
+    - "src/**"
+    - "api/**"
+    - "scripts/**"
+    - "tools/**"
+    - "docs/**"
+    - ".claude/**"
+    - ".github/**"
+    - "*.md"
+    - "*.json"
+    - "*.yaml"
+    - "*.yml"
+    - "*.py"
+    - "*.sh"
+    - "*.svg"
+    # NOT the generated build or the inlined binaries — they are outputs, not code.
+    - "!index.html"
+    - "!package-lock.json"
+    - "!assets/**/*.webp"
+    - "!assets/fonts/*.woff2"
+    - "!assets/**/*.jpg"
+    - "!assets/**/*.png"
+    - "!**/*.min.*"
+
+  path_instructions:
+    - path: "src/sporve-web.host.html"
+      instructions: >
+        This is a single-file vanilla-JS app: a big <style> block then view
+        functions returning HTML template-literal strings, wired by data-*
+        attributes and one render() that replaces #app wholesale. Flag: a ${...}
+        expression pasted into a plain (non-template) function body (a syntax
+        error that kills the whole script); a called function that is never
+        defined; text on a .band.dark ground using a token that can resolve
+        dark (must be a white/slate literal); a hardcoded px font-size (the
+        scale is 8 tokens, --text-*); an id-level selector silently overriding
+        a class rule; and any --accent used as generic chrome (orange is the
+        basketball sport colour only, CTAs are slate).
+    - path: "src/mod-*.js"
+      instructions: >
+        Feature modules inlined into the host at build. Each is co-prefixed and
+        must not redefine a host global. Flag any new external network request
+        (the built page must survive a CSP blocking all external requests) and
+        any change to a data-* handler, form, or state read that would break
+        live wiring.
+    - path: "src/build.py"
+      instructions: >
+        This build is a release boundary: every source marker must be replaced
+        exactly once, every inline script must receive a matching CSP hash, and
+        index.html plus vercel.json must stay reproducible. Flag silent fallback,
+        partial output, or a replacement that can succeed after its source token
+        disappears.
+    - path: "api/**"
+      instructions: >
+        Same-origin server endpoints. Treat authentication, request byte limits,
+        origin validation, model-output validation, error disclosure, and secret
+        handling as trust boundaries. Clients may send identifiers and user text,
+        never authoritative money, entitlement, or verification state.
+    - path: "src/{mod-booking.js,mod-payments.js,mod-coachaccount.js,mod-catalog.js}"
+      instructions: >
+        Critical booking, money, coach identity, and live-catalogue paths. Require
+        server-side authority for price, capacity, trust, and payout state; flag
+        stale in-memory records after reload, client-granted trust, fabricated
+        success, and fields consumed by UI but omitted from a database select.
+    - path: "{scripts/**,tools/**,.github/**}"
+      instructions: >
+        Verification and operator tooling must fail closed. Flag checks that warn
+        or exit zero when they did not run, unsafe path construction, shell-value
+        interpolation into source code, non-deterministic dependency installs,
+        and CI steps that mutate the committed dependency lock.
+
+chat:
+  auto_reply: true

@@ -21,7 +21,7 @@
 <meta name="twitter:description" content="Find coaches, trainers, camps and teams across 20+ sports in Chicagoland.">
 <meta name="twitter:image" content="https://the-sporve-web.vercel.app/og.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%2309090B'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='6'%20fill='white'/%3E%3C/svg%3E">
-<meta name="sporve-build" content="bc4947cfb8ed9553">
+<meta name="sporve-build" content="fc453c5c1e8ad054">
 </head>
 <body>
 <noscript><h1>Sporv — Every sport. One app.</h1><p>Sporv connects families and athletes with coaches, trainers, camps, and teams across more than 20 sports. Please enable JavaScript to use the app.</p></noscript>
@@ -136,14 +136,14 @@
   /* ── TYPE SCALE: eight steps, no ninth. Carried verbatim from the marketing
      landing (sporve-landing/tokens.css) so the two web surfaces share one
      scale. Every text element on this page maps to one of these. */
-  --text-xs:10.5px;                    /* eyebrows, stat labels, nav, chips   */
-  --text-sm:10px;                      /* meta lines, captions, buttons       */
-  --text-base:12.5px;                  /* body paragraphs                     */
-  --text-md:13.5px;                    /* lead paragraph only (hero support)  */
-  --text-lg:clamp(13px,1.3vw,15px);    /* card titles, coach name             */
+  --text-xs:var(--t-caption);                    /* eyebrows, stat labels, nav, chips   */
+  --text-sm:var(--t-caption);                      /* meta lines, captions, buttons       */
+  --text-base:var(--t-body);                  /* body paragraphs                     */
+  --text-md:var(--t-lead);                    /* lead paragraph only (hero support)  */
+  --text-lg:var(--t-lead);    /* card titles, coach name             */
   --text-xl:clamp(21px,1.9vw,27px);    /* stat numerals, sub-headers          */
-  --text-2xl:clamp(20px,2.2vw,28px);   /* section headers (h2)                */
-  --text-hero:clamp(28px,3.6vw,50px);  /* h1 only                             */
+  --text-2xl:var(--t-h2);   /* section headers (h2)                */
+  --text-hero:var(--t-h1);  /* h1 only                             */
   /* The ONE class of exception: a `font-size` that sizes a GLYPH rather than
      text -- an avatar initial, an emoji, a chevron, a sport badge's icon.
      Those are icon dimensions expressed in font-size units, and a fluid clamp
@@ -210,7 +210,10 @@
      editorial geometry. Already embedded (build.py maps archivo→"Archivo" 400-800),
      so zero CSP/page-weight cost. Body stays Plus Jakarta / Inter (professional);
      numerals stay JetBrains Mono. Revises D7 from Syne. */
-    --roboto-cond:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
+    --t-caption:12px; --t-body:16px; --t-lead:20px; --t-h2:32px; --t-h1:56px;
+  /* marketing five-token scale (owner 2026-09-01): the --text-* tokens below
+     REMAP onto these five. Stadium hero (--text-hero-lp) stays exempt. */
+  --roboto-cond:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
   --text-hero-lp:clamp(31px,4.5vw,57px);
   --display:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
   /* MAIN HEADERS = Instrument Serif (owner 2026-08-21: "main header a mix of
@@ -5283,6 +5286,25 @@ body.reg-coach .rail button{font-size:var(--t-small)}
 .herofull-in .searchpill,.herofull-in .search-pill{margin:22px auto 0}
 @media(max-width:768px){.hero-mq{max-width:100%}}
 @media(prefers-reduced-motion:reduce){.hero-mq-track{animation:none}}
+
+/* ── FIVE-TOKEN MARKETING TYPE (owner 2026-09-01): two weights, tight tracking,
+   generous leading. Scoped to family marketing bands; app/coachdark untouched.
+   The stadium hero (.hero-ai) keeps its own size/weight — exempt. ────────────*/
+#app:not(.coachdark) .band h1,#app:not(.coachdark) .band h2,
+#app:not(.coachdark) .band .display,#app:not(.coachdark) .band .btn{font-weight:600}
+#app:not(.coachdark) .band p,#app:not(.coachdark) .band .lede,
+#app:not(.coachdark) .band .eyebrow,#app:not(.coachdark) .band li,
+#app:not(.coachdark) nav .navlink{font-weight:400}
+#app:not(.coachdark) .band h1,#app:not(.coachdark) .band .display{letter-spacing:-.02em;line-height:1.05}
+#app:not(.coachdark) .band h2{letter-spacing:-.01em;line-height:1.15}
+#app:not(.coachdark) .band .lede{line-height:1.4}
+#app:not(.coachdark) .band p,#app:not(.coachdark) .band li{letter-spacing:0;line-height:1.6}
+#app:not(.coachdark) .band .eyebrow{letter-spacing:.06em;text-transform:uppercase;line-height:1.3}
+#app:not(.coachdark) .band p,#app:not(.coachdark) .band .lede{max-width:640px}
+#app:not(.coachdark) .band{padding-top:calc(var(--band-pad,74px)*1.4);padding-bottom:calc(var(--band-pad,74px)*1.4)}
+/* stadium hero stays exactly as-is */
+#app .herofull,#app .hero-ai,#app .herofull .band{padding:0}
+@media(max-width:640px){:root{--t-h1:40px;--t-h2:28px}}
 </style>
 
 <div id="app"></div>

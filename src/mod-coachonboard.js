@@ -892,7 +892,7 @@ function onboardView(){
     <header class="cw-top">
       <span class="cg-wordmark" style="font-size:15px;font-weight:800">Sporv</span>
       <span class="cw-topright">
-        <a class="cw-help" href="mailto:support@sporve.com">Questions?</a>
+        <a class="cw-help" href="mailto:support@sporv.com">Questions?</a>
         <button class="cw-exit" type="button" data-cob-exit="1">Save &amp; exit</button>
       </span>
     </header>

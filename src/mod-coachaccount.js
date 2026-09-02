@@ -768,7 +768,7 @@
           <span class="num">${esc(pro.price + pro.per)}</span></div>
         <p class="cb-fine">${esc(pro.adds)}</p>
         <p class="cb-fine">${esc(ent.price + ent.per)} Enterprise (multi-player workspace) is in
-          development — <a href="mailto:support@sporve.com?subject=Enterprise%20early%20access">contact
+          development — <a href="mailto:support@sporv.com?subject=Enterprise%20early%20access">contact
           Sporv for early access</a>.</p>
       </div>
     </div>`;
